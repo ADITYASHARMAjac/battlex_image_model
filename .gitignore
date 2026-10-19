@@ -1,0 +1,33 @@
+# Byte-compiled / cached
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+.venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env vars
+.env
+.env.*
+
+# Generated test images (never commit these)
+*.png
+!static/images/*.png
+
+# Logs
+*.log
+
+# Gemini/Antigravity internal
+.gemini/

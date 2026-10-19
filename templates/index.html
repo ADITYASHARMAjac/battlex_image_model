@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BattleX | Free Fire Esports Points Table Studio</title>
+  <meta name="description" content="Generate high-aesthetic Free Fire tournament points tables, standings, and downloadable HD graphics from CSV files.">
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ff6a00'><path d='M12 2L2 22h20L12 2zm0 4.5l6.5 13H5.5L12 6.5z'/></svg>">
+</head>
+<body data-theme="inferno">
+
+  <!-- Interactive Ember Particle Canvas (Free Fire Lobby Sparks) -->
+  <canvas id="ember-canvas"></canvas>
+
+  <div class="app-wrapper">
+
+    <!-- Top Navigation Bar -->
+    <header class="navbar">
+      <div class="brand">
+        <div class="brand-logo-wrap">
+          <!-- Flame / Crown SVG Icon -->
+          <svg viewBox="0 0 24 24">
+            <path d="M12 23c-4.97 0-9-4.03-9-9 0-4.66 3.63-8.47 8.24-8.95-.39 1.1-.6 2.27-.6 3.45 0 2.22.84 4.25 2.22 5.79.23-.42.41-.86.54-1.32.22-.76.22-1.55.02-2.31 2.27 1.83 3.58 4.6 3.58 7.34 0 2.76-2.24 5-5 5zm0-21C9.5 5 7 8 7 11.5c0 1.25.38 2.42 1.03 3.39C7.38 13.9 7 12.75 7 11.5 7 7.5 10 4 12 2zm1 3.5c1.8 2.2 2.5 4.3 2.5 6 0 1.93-1.57 3.5-3.5 3.5-.83 0-1.6-.29-2.2-.78.47-1.4 1.5-2.58 2.85-3.22.25.75.77 1.38 1.47 1.76-.08-.72-.37-1.4-.82-1.96 1.17-1.35 1.5-3.08 1.2-5.3z"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1>BATTLEX ESPORTS</h1>
+          <span>Free Fire Points Table Studio</span>
+        </div>
+      </div>
+
+      <div class="nav-actions">
+        <div class="v-badge" title="Official Verified Tournament System">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+          V-BADGE CERTIFIED
+        </div>
+      </div>
+    </header>
+
+    <!-- Control Grid: Upload & Live Customization -->
+    <div class="control-grid">
+
+      <!-- Upload Card -->
+      <div class="card">
+        <h3 class="card-title">
+          <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg>
+          Upload Points Table (CSV)
+        </h3>
+        
+        <div class="dropzone" id="dropzone">
+          <input type="file" id="csvFileInput" accept=".csv,text/csv">
+          <div class="dropzone-icon">
+            <svg viewBox="0 0 24 24"><path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z"/></svg>
+          </div>
+          <div class="dropzone-text">
+            <h4>DRAG & DROP CSV FILE HERE</h4>
+            <p>Supports columns: Rank, Team / Players, Total Kills, Placement Points, Total Points</p>
+          </div>
+          <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('csvFileInput').click()">
+            Browse Computer
+          </button>
+        </div>
+
+        <div class="upload-actions">
+          <button id="btnLoadSample" class="btn btn-sample btn-sm" type="button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/></svg>
+            Load Sample Free Fire CSV
+          </button>
+          <span style="font-size: 0.8rem; color: var(--text-muted);">Instant 1-Click Demo</span>
+        </div>
+      </div>
+
+      <!-- Customization Studio Card -->
+      <div class="card">
+        <h3 class="card-title">
+          <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+          Tournament Customizer
+        </h3>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="inputTitle">Tournament Title</label>
+            <input type="text" id="inputTitle" class="form-input" value="FREE FIRE BATTLEGROUNDS CHAMPIONSHIP">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="inputMatch">Match / Map Info</label>
+            <input type="text" id="inputMatch" class="form-input" value="GRAND FINALS • MATCH 01 • BERMUDA">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="inputFooter">Footer Watermark</label>
+            <input type="text" id="inputFooter" class="form-input" value="OFFICIAL RESULTS • VERIFIED BY BATTLEX ESPORTS">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Player Roster Tags</label>
+            <div style="display: flex; align-items: center; gap: 0.5rem; height: 100%;">
+              <input type="checkbox" id="togglePlayerTags" checked style="accent-color: var(--theme-primary); width: 18px; height: 18px; cursor: pointer;">
+              <label for="togglePlayerTags" style="cursor: pointer; font-size: 0.9rem; color: #fff;">Display Player Names</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Esports Color Theme</label>
+          <div class="theme-picker">
+            <div class="theme-pill active" data-theme="inferno">🔥 Inferno Blaze</div>
+            <div class="theme-pill" data-theme="chrono">⚡ Cyber Chrono</div>
+            <div class="theme-pill" data-theme="crimson">💀 Blood Crimson</div>
+            <div class="theme-pill" data-theme="gold">👑 Elite Gold</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Live Highlights Bar -->
+    <div class="stats-banner">
+      <div class="stat-box champion">
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94.63 1.5 1.98 2.63 3.61 2.96V19H7v2h10v-2h-4v-3.1c1.63-.33 2.98-1.46 3.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z"/></svg>
+        </div>
+        <div class="stat-info">
+          <div class="label">BOOYAH! CHAMPION</div>
+          <div class="value" id="statWinnerTeam">Squad #1</div>
+          <div class="sub-value" id="statWinnerPoints">26 PTS</div>
+        </div>
+      </div>
+
+      <div class="stat-box">
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+        </div>
+        <div class="stat-info">
+          <div class="label">TOP FRAGGER / MVP</div>
+          <div class="value" id="statMvpTeam">Squad #1</div>
+          <div class="sub-value" id="statMvpKills">14 KILLS</div>
+        </div>
+      </div>
+
+      <div class="stat-box">
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2a9 9 0 0 0-9 9c0 3.57 2.08 6.66 5.12 8.12.19.09.38.22.46.42l.53 1.33c.18.46.63.76 1.13.76h3.52c.5 0 .95-.3 1.13-.76l.53-1.33c.08-.2.27-.33.46-.42C18.92 17.66 21 14.57 21 11a9 9 0 0 0-9-9zm-3.5 10c-.83 0-1.5-.67-1.5-1.5S7.67 9 8.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm7 0c-.83 0-1.5-.67-1.5-1.5S14.67 9 15.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+        </div>
+        <div class="stat-info">
+          <div class="label">TOTAL MATCH KILLS</div>
+          <div class="value" id="statTotalKills">56</div>
+          <div class="sub-value">FRAGS ELIMINATED</div>
+        </div>
+      </div>
+
+      <div class="stat-box">
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+        </div>
+        <div class="stat-info">
+          <div class="label">TOTAL SQUADS</div>
+          <div class="value" id="statTotalTeams">9</div>
+          <div class="sub-value">COMPETING TEAMS</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Preview & High-Res Poster Viewport -->
+    <section class="preview-section">
+      <div class="preview-toolbar">
+        <div class="preview-title">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="var(--theme-primary)"><path d="M21 3H3C2 3 1 4 1 5v14c0 1.1.9 2 2 2h18c1 0 2-.9 2-2V5c0-1-1-2-2-2zm0 16H3V5h18v14zm-10-7h9v6h-9z"/></svg>
+          Live Esports Poster Preview
+        </div>
+
+        <div class="toolbar-buttons">
+          <button id="btnDownloadHd" class="btn btn-primary" type="button">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+            Download HD Poster (PNG)
+          </button>
+          <button id="btnCopyImage" class="btn btn-secondary btn-sm" type="button" title="Copy to clipboard for WhatsApp/Discord">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+            Copy Image
+          </button>
+          <button id="btnServerExport" class="btn btn-secondary btn-sm" type="button" title="Generate 1080p poster on backend">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg>
+            Server HD Render
+          </button>
+        </div>
+      </div>
+
+      <!-- The Printable Poster Card -->
+      <div class="poster-viewport">
+        <div class="esports-poster" id="esportsPoster">
+
+          <!-- Poster Header -->
+          <div class="poster-header">
+            <div class="poster-badge-top">
+              <span>★ FREE FIRE OFFICIAL ESPORTS ★</span>
+            </div>
+            <h2 class="poster-title" id="posterTitle">FREE FIRE BATTLEGROUNDS CHAMPIONSHIP</h2>
+            <div class="poster-subtitle" id="posterSubtitle">GRAND FINALS • MATCH 01 • BERMUDA</div>
+          </div>
+
+          <!-- Empty State -->
+          <div class="empty-table-state" id="emptyState" style="display: none;">
+            <div class="empty-icon">
+              <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+            </div>
+            <h3 style="font-family: var(--font-heading); letter-spacing: 1.5px;">NO TOURNAMENT DATA LOADED</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Upload your Free Fire points table CSV above or click 'Load Sample CSV'</p>
+          </div>
+
+          <!-- Points Table -->
+          <div class="table-card" id="tableContainer">
+            <table class="esports-table">
+              <thead>
+                <tr>
+                  <th class="col-rank">#</th>
+                  <th class="col-team">TEAM &amp; SQUAD ROSTER</th>
+                  <th class="col-stat">KILL PTS</th>
+                  <th class="col-stat">PLACE PTS</th>
+                  <th class="col-total">TOTAL PTS</th>
+                </tr>
+              </thead>
+              <tbody id="tableBody">
+                <!-- Injected via JavaScript -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Poster Footer -->
+          <div class="poster-footer">
+            <span id="posterFooterNote">OFFICIAL RESULTS • VERIFIED BY BATTLEX ESPORTS</span>
+            <span>⚡ POWERED BY BATTLEX TOURNAMENT ENGINE</span>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast">
+    <svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+    <span id="toastMessage">Points table loaded successfully!</span>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="spinner"></div>
+    <div style="font-family: var(--font-heading); font-size: 1.1rem; letter-spacing: 1.5px; color: #fff;" id="loadingText">
+      Generating HD Poster...
+    </div>
+  </div>
+
+  <!-- Vendor Scripts & App Logic -->
+  <script src="/static/vendor/html2canvas.min.js"></script>
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
